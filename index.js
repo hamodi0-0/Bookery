@@ -38,7 +38,7 @@ app.post("/search", async (req, res) => {
   
     try {
       const result = await axios.get(`https://openlibrary.org/search.json?q=${text}`);
-      const suggestions = result.data.docs.slice(0, 7);
+      const suggestions = result.data.docs.slice(0, 5);
   
       res.json({ suggestions }); // JSON response for frontend
     } catch (err) {

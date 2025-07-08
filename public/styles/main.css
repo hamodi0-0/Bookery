@@ -22,13 +22,13 @@
     position: absolute;
     background-color: white;
     margin-top: 50px;
-    border: 1px solid #ccc;
+    border: none;
     width: 100%;
     max-width: 350px;
     max-height: 500px;
     overflow-y: auto;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     z-index: 1000;
 }
 
