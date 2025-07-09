@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 
                   const inputBox = document.getElementById("inputBox");
                   
-                  const debouncedSearch = debounce(handleSearchInput, 200);
+                  const debouncedSearch = debounce(handleSearchInput, 300);
                   inputBox.addEventListener("input", debouncedSearch);
                                 
 })
@@ -21,7 +21,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
       const text = inputBox.value;
 
       if(text === ''){   // if input box is empty clear the drop-down list
-        clearSuggestions();
+        setTimeout(() => {
+          document.getElementById("suggestions").innerHTML = ""
+        }, 1000);
+            
       } else {
         try {
           const response = await axios.post("/search", { text });
@@ -89,7 +92,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
     // clearing input function
     const clearSuggestions = debounce(()=>{
       document.getElementById("suggestions").innerHTML = ""
-    }, 300)
-        // we use this debounce function so that we wait before clearing the list so it does not get overwritten by late API response 
-
-
+    }, 1000)
+    // we use this debounce function so that we wait before clearing the list so it does not get overwritten by late API response 
+   

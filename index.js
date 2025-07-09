@@ -37,7 +37,7 @@ app.post("/search", async (req, res) => {
     if (!text) return res.status(400).json({ error: "No search input provided" });
   
     try {
-      const result = await axios.get(`https://openlibrary.org/search.json?q=${text}`);
+      const result = await axios.get(`https://openlibrary.org/search.json?q=${text}&limit=5`);
       const suggestions = result.data.docs.slice(0, 5);
   
       res.json({ suggestions }); // JSON response for frontend
