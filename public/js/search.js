@@ -1,16 +1,33 @@
 
 document.addEventListener("DOMContentLoaded", ()=>{
 
-                  const form = document.getElementById('searchForm');
                   //preventing form submitting during typing
+                  const form = document.getElementById('searchForm');
                   form.addEventListener('submit', async (e) => {
                       e.preventDefault(); 
                    });
                 
                   const inputBox = document.getElementById("inputBox");
-                  
                   const debouncedSearch = debounce(handleSearchInput, 300);
+                  
                   inputBox.addEventListener("input", debouncedSearch);
+
+                  document.querySelectorAll('.star').forEach(star => {
+                    star.addEventListener('click', () => {
+                      const rating = parseInt(star.dataset.value);
+                      document.querySelectorAll('.star').forEach(s => {
+                        s.style.color = parseInt(s.dataset.value) <= rating ? 'gold' : '#ccc';
+                      });
+                    });
+                  });
+                  
+                  // suggestionsContainer.addEventListener("click", async (e) => {
+                  //   if (e.target.classList.contains("viewButton")) {
+                  //     const {workId} = e.target.dataset;
+                  //     const response = await axios.post("/view", { workId });
+                  //   }
+                  // });
+                  
                                 
 })
 
@@ -18,7 +35,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 // function to make post request to /search route in backend
     async function handleSearchInput() {
-      const text = inputBox.value;
+      const text = inputBox.value.trim();
 
       if(text === ''){   // if input box is empty clear the drop-down list
         setTimeout(() => {
@@ -61,7 +78,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
       const author = document.createElement("div");
       author.className = "author";
-      author.textContent = item.author_name || "Unknown Author";
+      author.textContent = item.author_name[0] || "Unknown Author";
 
       info.appendChild(title);
       info.appendChild(author);
@@ -70,8 +87,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
       suggestionItem.appendChild(left);
 
       // Add View button
-      const buttonWrapper = document.createElement("div");
-      const viewButton = document.createElement("button");
+      const buttonWrapper = document.createElement("div")
+      const viewButton = document.createElement("a");
+      viewButton.className = "viewButton"
+      viewButton.href = `/view?imgSrc=https://covers.openlibrary.org/b/id/${item.cover_i}-L.jpg&title=${item.title}&author=${item.author_name}`
       viewButton.textContent = "View";
       buttonWrapper.appendChild(viewButton);
       suggestionItem.appendChild(buttonWrapper);

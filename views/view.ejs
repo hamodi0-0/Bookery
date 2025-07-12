@@ -1,0 +1,16 @@
+<%- include("partials/header.ejs") %>
+
+<div class="card-wrapper">
+    <div class="book-card">
+        <div class="book-cover">
+            <img src="<%= bookInfo.imgSrc %>">
+        </div>
+        <div class="book-details">
+            <h3 class="book-title fw-bold"><%= bookInfo.title %></h3>
+            <p class="book-review"><%= bookInfo.description %></p>
+            <button class="add-button">Add</button>
+        </div>
+    </div>
+    </div>
+<script src="/js/view.js"></script>
+<%- include("partials/footer.ejs") %>

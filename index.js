@@ -33,19 +33,30 @@ app.get("/", (req, res)=>{
 
 app.post("/search", async (req, res) => {
     const text = req.body.text?.toLowerCase().split(" ").join("+");
-  
+    
     if (!text) return res.status(400).json({ error: "No search input provided" });
-  
+    
     try {
       const result = await axios.get(`https://openlibrary.org/search.json?q=${text}&limit=5`);
       const suggestions = result.data.docs.slice(0, 5);
-  
+      // console.log(suggestions)
+
       res.json({ suggestions }); // JSON response for frontend
     } catch (err) {
       console.error("Search error:", err);
       res.status(500).json({ error: "Something went wrong" });
     }
   });
+  
+  app.get("/view", async (req, res)=>{
+    res.render("index.ejs", {
+      modal : true,
+      title : req.query.title,
+      author : req.query.author,
+      image : req.query.imgSrc
+    })
+
+  })
   
 
 app.listen(PORT, ()=>{

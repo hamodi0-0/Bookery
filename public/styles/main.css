@@ -1,6 +1,11 @@
+body {
+font-family:monospace;
+}
+
 .input-box {
     width: 300px;
     height: 40px;
+    margin-top: 70px;
     border-radius: 4px;
     padding-left: 10px;
     padding-right: 5px;
@@ -22,11 +27,11 @@
     position: absolute;
     background-color: white;
     padding: 0px 15px 0px 15px;
-    margin-top: 75px;
+    margin-top: 145px;
     border: none;
     width: 100%;
     max-width: 350px;
-    max-height: 500px;
+    max-height: 375px;
     overflow-y: auto;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -50,6 +55,7 @@
 .suggestion-item img {
     width: 75px;
     height: 125px;
+    border: #e4e4e4 solid 2px;
     object-fit: cover;
     border-radius: 4px;
 }
@@ -83,3 +89,24 @@
 .suggestion-item button:hover {
     background-color: #3a3a3a;
 }
+
+
+.viewButton {
+    display: inline-block;
+    padding: 8px 14px;
+    margin-left: 10px;
+    background-color: #1a1a1a;
+    text-decoration: none;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.viewButton :hover {
+    background-color: #3a3a3a;
+    /* Darker blue on hover */
+}
+
