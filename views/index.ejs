@@ -1,6 +1,6 @@
 <%- include('partials/header.ejs') %>
 
-<div class="d-flex align-content-center justify-content-center">
+<div class="d-flex align-content-center justify-content-center p-3">
     <div>
         <form action="/search" method="post" id="searchForm">
             <input class="input-box" type="text" name="search" id="inputBox" placeholder="Search a book"  required>
@@ -12,51 +12,63 @@
 </div>
 
 
+    <!-- modal generation -->
     <% if (locals.modal) { %>
-    <!-- Small Modal -->
-    <div class="modal show d-block" tabindex="-1"
-        style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #00000048;">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
-            <div class="modal-content">
-                <div class="modal-body position-relative d-flex">
-    
-                    <!-- Close Button -->
-                    <a href="/">
-                        <button type="button" class="btn-close position-absolute top-0 end-0 m-2"
-                            aria-label="Close"></button>
-                    </a>
-    
-                    <!-- Book Cover on the left -->
-                    <img src="<%= locals.image %>" class="img-fluid rounded me-3"
-                        style="width: 210px; height: 315px; object-fit: cover;">
-    
-                    <!-- Right-side Content -->
-                    <div class="flex-grow-1">
-                        <h6 class="modal-title mb-2"><strong>
-                                <%= locals.title %>
-                            </strong></h6>
-                        <p class="text-muted mb-3"><strong>Author: </strong>
-                            <%= locals.author %>
-                        </p>
-    
-                        <textarea class="form-control" rows="5" placeholder="Your review..."></textarea>
-    
-                        <div id="starRating" class="mb-2 d-flex gap-3">
-                            <% for(let i=1; i <=5; i++) { %>
-                                <span class="star" data-value="<%= i %>"
-                                    style="cursor:pointer; font-size: 2.5rem; color: #ccc;">&#9733;</span>
-                                <% } %>
+        <form action="/add" method="POST">
+            <div class="modal show d-block" tabindex="-1"
+                style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #00000048;">
+                <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+                    <div class="modal-content">
+                        <div class="modal-body position-relative d-flex">
+        
+                            <!-- Close Button -->
+                            <a href="/">
+                                <button type="button" class="btn-close position-absolute top-0 end-0 m-2"
+                                    aria-label="Close"></button>
+                            </a>
+        
+                            <!-- Book Cover -->
+                            <img src="<%= locals.image %>" class="img-fluid rounded me-3"
+                                style="width: 210px; height: 315px; object-fit: cover;">
+        
+                            <!-- Right Content -->
+                            <div class="flex-grow-1">
+                                <h6 class="modal-title mb-2"><strong>
+                                        <%= locals.title %>
+                                    </strong></h6>
+                                <p class="text-muted mb-4"><strong>Author: </strong>
+                                    <%= locals.author %>
+                                </p>
+
+                        <!-- Hidden Fields -->
+                        <input type="hidden" name="title" value="<%= locals.title %>">
+                        <input type="hidden" name="author" value="<%= locals.author %>">
+                        <input type="hidden" name="image" value="<%= locals.image %>">
+                        <input type="hidden" name="rating" id="ratingInput" required>
+
+                        <!-- Review Input -->
+                        <textarea class="form-control mb-3" name="review" rows="5" placeholder="Your review..." required></textarea>
+        
+                                <!-- Stars -->
+                                <div id="starRating" class="d-flex gap-3 mb-3">
+                                    <% for(let i=1; i <=5; i++) { %>
+                                        <span class="star" data-value="<%= i %>"
+                                            style="cursor:pointer; font-size: 2.5rem; color: #ccc;">&#9733;</span>
+                                        <% } %>
+                                </div>
+        
+                                <!-- Submit -->
+                                <button type="submit" class="btn btn-dark w-100">Add</button>
+                            </div>
                         </div>
-    
-                        <button type="submit" class="btn btn-dark w-100">Add</button>
                     </div>
-    
                 </div>
             </div>
-        </div>
-    </div>
-      
+        </form>
 <% } %>
-    <script src="/js/search.js"></script>
 
+            <!-- reviews generation -->
+
+
+<script src="/js/search.js"></script>
 <%- include('partials/footer.ejs') %>

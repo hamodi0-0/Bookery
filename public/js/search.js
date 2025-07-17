@@ -12,10 +12,16 @@ document.addEventListener("DOMContentLoaded", ()=>{
                   
                   inputBox.addEventListener("input", debouncedSearch);
 
-                  document.querySelectorAll('.star').forEach(star => {
+                   // stars functionality 
+                   const stars = document.querySelectorAll(".star");
+                   const ratingInput = document.getElementById("ratingInput");
+                   
+                    stars.forEach(star => {
                     star.addEventListener('click', () => {
                       const rating = parseInt(star.dataset.value);
-                      document.querySelectorAll('.star').forEach(s => {
+                      ratingInput.value = rating;
+
+                      stars.forEach(s => {
                         s.style.color = parseInt(s.dataset.value) <= rating ? 'gold' : '#ccc';
                       });
                     });

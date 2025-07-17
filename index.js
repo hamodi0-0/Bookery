@@ -27,6 +27,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')));
 
+const reviews = [];
+
 app.get("/", (req, res)=>{
     res.render("index.ejs");
 })
@@ -56,6 +58,34 @@ app.post("/search", async (req, res) => {
       image : req.query.imgSrc
     })
 
+  });
+
+  app.post("/add", async (req, res)=>{
+    const {review, rating, image, author, title} = req.body;
+    await db.query(`
+      INSERT INTO reviews
+      (review, stars, cover_link, author, title)
+      VALUES($1, $2, $3, $4, $5);
+      `,
+      [review, rating,  image.split('L').join('M'), author, title]
+    );
+
+    res.redirect("/reviews");
+  })
+
+  app.get("/reviews", async (req, res)=>{
+    const result = await db.query(`SELECT * FROM reviews;`)
+    const reviews = result.rows;
+    res.render("reviews.ejs", {reviews});
+  });
+
+  app.get("/delete", async (req, res)=>{
+    const id = req.query.reviewId
+    await db.query(`
+      DELETE FROM reviews
+      WHERE id = $1;
+      `,[id])
+    res.redirect("/reviews")
   })
   
 
