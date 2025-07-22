@@ -46,7 +46,7 @@ app.use(passport.session());
 
 app.get("/", (req, res)=>{
   if (req.isAuthenticated()) {
-    res.render("index.ejs");
+    res.render("index.ejs", {name : req.user.name});
   } else {
     res.redirect("/login");
   }
@@ -66,8 +66,9 @@ app.get("/view", async (req, res)=>{
 });
 
 app.get("/reviews", async (req, res)=>{
+  console.log(req.user)
   if (req.isAuthenticated()) {
-    const result = await db.query(`SELECT * FROM reviews;`)
+    const result = await db.query(`SELECT * FROM reviews WHERE email = $1;`, [req.user.email])
     const reviews = result.rows;
   res.render("reviews.ejs", {reviews});
   } else {
@@ -105,7 +106,8 @@ app.get("/logout", (req, res) => {
 
 app.get("/auth/google",
   passport.authenticate("google", {
-    scope : ["profile", "email"]
+    scope : ["profile", "email"],
+    prompt : "select_account"
   })
 );
 
@@ -139,10 +141,10 @@ app.post("/search", async (req, res) => {
     const {review, rating, image, author, title} = req.body;
     await db.query(`
       INSERT INTO reviews
-      (review, stars, cover_link, author, title)
-      VALUES($1, $2, $3, $4, $5);
+      (review, stars, cover_link, author, title, email)
+      VALUES($1, $2, $3, $4, $5, $6);
       `,
-      [review, rating,  image.split('L').join('M'), author, title]
+      [review, rating,  image.split('L').join('M'), author, title, req.user.email]
     );
     res.redirect("/reviews");
   })
@@ -156,14 +158,13 @@ passport.use("google", new GoogleStrategy({
   userProfileURL : "https://www.googleapis.com/oauth2/v3/userinfo"
 }, async (accessToken, refreshToken, profile, cb) => {
   try {
-    console.log(profile);
     const result = await db.query("SELECT * FROM users WHERE email = $1", [
       profile.email,
     ]);
     if (result.rows.length === 0) {
       const newUser = await db.query(
-        "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
-        [profile.email, "google"]
+        "INSERT INTO users (email, password, name) VALUES ($1, $2, $3) RETURNING *",
+        [profile.email, "google", profile.displayName] //inserting email and name into db
       );
       return cb(null, newUser.rows[0]);
     } else {
