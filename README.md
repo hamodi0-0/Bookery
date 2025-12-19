@@ -1,8 +1,8 @@
-# 📚 Book Review Web App
+# Book Review Web App
 
 A Node.js web application where users can search for books, write reviews, and view their own submissions. Authenticated using Google OAuth and PostgreSQL as the database.
 
-## 🔧 Getting Started
+## Getting Started
 
 ### 1. Clone the repository
 
@@ -73,7 +73,7 @@ Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🔒 Authentication
+## Authentication
 
 - Users log in using **Google OAuth 2.0**
 - Upon login, their Google email is stored in the `users` table
@@ -81,7 +81,7 @@ Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## ✍️ Features
+## Features
 
 - Google OAuth login flow
 - Authenticated users can:
@@ -91,13 +91,13 @@ Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🔐 User-Specific Data
+## User-Specific Data
 
 All reviews are filtered by the logged-in user's email. A user can **only see or delete their own reviews**.
 
 ---
 
-## 🧩 Dependencies
+## Dependencies
 
 - express
 - pg (PostgreSQL)
